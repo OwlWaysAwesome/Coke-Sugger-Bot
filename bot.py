@@ -1,41 +1,32 @@
+import os
 import discord
 from discord.ext import commands
-import google.generativeai as genai
-import os
 from dotenv import load_dotenv
 
-# Load environment variables
+# Load .env file (useful for local testing)
 load_dotenv()
-TOKEN = os.getenv("DISCORD_TOKEN")
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
-# Configure Google Gemini AI
-genai.configure(api_key=GEMINI_API_KEY)
-model = genai.GenerativeModel("gemini-pro")
+# Fetch token from environment variables
+TOKEN = os.getenv("TOKEN")
 
-# Bot setup
+# Debugging: Check if TOKEN is loading
+if not TOKEN:
+    print("❌ TOKEN not found. Make sure it's set in Railway Variables!")
+    exit(1)  # Exit the script if no token is found
+else:
+    print(f"✅ TOKEN loaded successfully!")
+
+# Set up bot
 intents = discord.Intents.default()
-intents.messages = True
-intents.guilds = True
 bot = commands.Bot(command_prefix="!", intents=intents)
 
-# Slash command setup
 @bot.event
 async def on_ready():
     print(f"✅ Logged in as {bot.user}")
 
 @bot.command()
-async def ask(ctx, *, question):
-    """Ask the AI a question"""
-    response = model.generate_content(question)
-    await ctx.send(response.text)
+async def ping(ctx):
+    await ctx.send("Pong!")
 
-# Keep-alive function (if hosting on Railway)
-try:
-    from keep_alive import keep_alive
-    keep_alive()
-except ImportError:
-    pass
-
-# Run the bot
+# Run bot
 bot.run(TOKEN)
