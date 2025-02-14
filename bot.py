@@ -10,6 +10,7 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 # Initialize bot
 intents = discord.Intents.default()
+intents.message_content = True  # Ensure message content intent is explicitly enabled
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 # Initialize Gemini API
