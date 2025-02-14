@@ -44,8 +44,8 @@ async def ask_slash(interaction: discord.Interaction, question: str):
     await interaction.response.defer()
     try:
         model = genai.GenerativeModel("gemini-pro")
-        response = model.generate_content(question)
-        answer = response.text.strip() if response.text else "I couldn't generate a response."
+        response = await model.generate_content_async(question)  # Use async version
+        answer = response.text if hasattr(response, 'text') and response.text else "I couldn't generate a response."
         await interaction.followup.send(f"**Question:** {question}\n**Answer:** {answer}")
     except Exception as e:
         await interaction.followup.send("❌ An error occurred while fetching the answer.")
@@ -57,12 +57,13 @@ async def ask_prefix(ctx, *, question: str):
     await ctx.trigger_typing()
     try:
         model = genai.GenerativeModel("gemini-pro")
-        response = model.generate_content(question)
-        answer = response.text.strip() if response.text else "I couldn't generate a response."
+        response = await model.generate_content_async(question)  # Use async version
+        answer = response.text if hasattr(response, 'text') and response.text else "I couldn't generate a response."
         await ctx.send(f"**Question:** {question}\n**Answer:** {answer}")
     except Exception as e:
         await ctx.send("❌ An error occurred while fetching the answer.")
         print(f"Error: {e}")
+
 
 # Run bot
 bot.run(TOKEN)
