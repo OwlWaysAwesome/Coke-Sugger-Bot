@@ -1,10 +1,20 @@
 import discord
 from discord.ext import commands
 import random
+import os
+from dotenv import load_dotenv  # Load environment variables
+
+# Load environment variables
+load_dotenv()
+TOKEN = os.getenv("DISCORD_TOKEN")  # Read the token from .env
+
+if TOKEN is None:
+    print("❌ ERROR: DISCORD_TOKEN is not set!")
+    exit()
 
 # Enable intents
 intents = discord.Intents.default()
-intents.message_content = True  # This must be enabled
+intents.message_content = True  # Ensure this is enabled
 intents.guilds = True
 intents.members = True
 
@@ -17,7 +27,7 @@ async def on_ready():
 
 @bot.event
 async def on_message(message):
-    print(f"📩 Message received: {message.content} from {message.author}")  # Debugging line
+    print(f"📩 Message received: {message.content} from {message.author}")  # Debugging
     await bot.process_commands(message)  # Allow command processing
 
 @bot.command()
@@ -27,9 +37,8 @@ async def roast(ctx, member: discord.Member = None):
         "You're proof that even evolution takes a step backward sometimes.",
         "You bring everyone so much joy… when you leave the room."
     ]
-
     if member:
-        await ctx.send(f"{member.mention}, {random.choice(roasts())}")
+        await ctx.send(f"{member.mention}, {random.choice(roasts)}")
     else:
         await ctx.send(random.choice(roasts))
 
