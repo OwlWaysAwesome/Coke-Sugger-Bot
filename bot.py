@@ -1,23 +1,12 @@
-import os
 import discord
 from discord.ext import commands
-from dotenv import load_dotenv
+import random
 
-# Load .env file (useful for local testing)
-load_dotenv()
-
-# Fetch token from environment variables
-TOKEN = os.getenv("TOKEN")
-
-# Debugging: Check if TOKEN is loading
-if not TOKEN:
-    print("❌ TOKEN not found. Make sure it's set in Railway Variables!")
-    exit(1)  # Exit the script if no token is found
-else:
-    print(f"✅ TOKEN loaded successfully!")
-
-# Set up bot
+# Enable intents
 intents = discord.Intents.default()
+intents.message_content = True  # This is crucial for responding to messages
+
+# Create the bot with intents
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 @bot.event
@@ -25,8 +14,27 @@ async def on_ready():
     print(f"✅ Logged in as {bot.user}")
 
 @bot.command()
-async def ping(ctx):
-    await ctx.send("Pong!")
+async def roast(ctx, member: discord.Member = None):
+    roasts = [
+        "You're like a cloud. When you disappear, it's a beautiful day.",
+        "You're proof that even evolution takes a step backward sometimes.",
+        "You bring everyone so much joy… when you leave the room."
+         "I'd explain it to you, but I left my crayons at home. 🖍️",
+        "Your brain has more lag than a dial-up connection. 📡",
+        "If stupidity was a sport, you'd be the MVP. 🏆",
+        "Are you a black hole? Because you suck the intelligence out of the room. 🕳️",
+        "You're proof that evolution sometimes hits the pause button. 🔄",
+        "I've seen better logic in a potato. 🥔",
+        "Your brain must be on airplane mode—zero connection. ✈️",
+        "You bring everyone so much joy… when you leave the conversation. 😬",
+        "I'd agree with you but then we'd both be wrong. 🤡",
+        "Your birth certificate is an apology letter from the condom factory. 💀",
+    ]
 
-# Run bot
+    if member:
+        await ctx.send(f"{member.mention}, {random.choice(roasts)}")
+    else:
+        await ctx.send(random.choice(roasts))
+
+# Run the bot
 bot.run(TOKEN)
