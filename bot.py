@@ -56,7 +56,7 @@ async def ask_slash(interaction: discord.Interaction, question: str):
 # Prefix command: !ask
 @bot.command(name="ask")
 async def ask_prefix(ctx, *, question: str):
-    await ctx.trigger_typing()
+    await ctx.typing()
     try:
         model = genai.GenerativeModel("gemini-pro")
         prompt = f"You're a friendly, witty, and slightly sarcastic assistant. Respond in a casual, engaging, and humorous way when appropriate. Keep it human-like and avoid sounding robotic.\n\nUser: {question}\nYou:"
@@ -93,6 +93,19 @@ BRUTAL_ROASTS = [
     "You have something on your chin… no, the third one. 🏋️‍♂️",
     "Your life is like a broken pencil—pointless. ✏️",
     "You're so forgettable that even amnesia wouldn't help me remember you. 🧠❌",
+    "You're like a cloud. When you disappear, it's a beautiful day.",
+    "You're proof that even evolution takes a step backward sometimes.",
+    "You bring everyone so much joy… when you leave the room."
+    "I'd explain it to you, but I left my crayons at home. 🖍️",
+    "Your brain has more lag than a dial-up connection. 📡",
+    "If stupidity was a sport, you'd be the MVP. 🏆",
+    "Are you a black hole? Because you suck the intelligence out of the room. 🕳️",
+    "You're proof that evolution sometimes hits the pause button. 🔄",
+    "I've seen better logic in a potato. 🥔",
+    "Your brain must be on airplane mode—zero connection. ✈️",
+    "You bring everyone so much joy… when you leave the conversation. 😬",
+    "I'd agree with you but then we'd both be wrong. 🤡",
+    "Your birth certificate is an apology letter from the condom factory. 💀",
     "I'd roast you harder, but I don't want to waste my best material on minor characters. 📖",
 ]
 
